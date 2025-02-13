@@ -1,0 +1,32 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+
+<main>
+
+
+<div class="my-3 p-3 bg-white rounded box-shadow">
+        <div class="media text-muted pt-3">
+            <a class="btn btn-outline-primary mb-4" href= "{% url 'client:client_create' %}" >Создать клиента</a>
+            {% for client in object_list %}
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark">{{ client.client_name }}</strong>
+                <div class="row-12 right">
+                <a href="{% url 'client:client_detail' client.pk %}">Посмотреть</a>
+                <a href="{% url 'client:client_update' client.pk %}">Изменить</a>
+                <a href="{% url 'client:client_delete' client.pk %}">Удалить</a>
+                </div>
+            </div>
+            <span class="d-block">@username</span>
+          </div>
+            {% endfor %}
+        </div>
+
+
+        <small class="d-block text-right mt-3">
+          <a href="#">All suggestions</a>
+        </small>
+      </div>
+
+
+{% endblock %}

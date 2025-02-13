@@ -1,0 +1,33 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+
+<main>
+
+
+  <div class="album py-5 p-4 bg-body-tertiary">
+      <a class="btn btn-outline-primary mb-4 " href= "{% url 'mailing:sending_create' %}" >Создать рассылку</a>
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for sending in object_list %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <p class="card-text">{{ sending.title }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:sending_detail' sending.pk %}">View</a>
+                  <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:sending_update' sending.pk %}">Edit</a>
+                  <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:sending_delete' sending.pk %}">Delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}
