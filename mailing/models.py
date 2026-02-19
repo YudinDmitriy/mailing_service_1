@@ -1,6 +1,7 @@
 from django.db import models
 
 from client.models import Client
+from config import settings
 
 NULLABLE = {"blank": True, "null": True}
 PERIODICITY_CHOICES = [
@@ -20,6 +21,8 @@ class Message(models.Model):
 
     tem_message = models.CharField(max_length=100, verbose_name="Тема письма")
     message_body = models.TextField(verbose_name="Тело письма")
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                                verbose_name='Владелец', **NULLABLE)
 
     def __str__(self):
         return f"{self.tem_message}"
@@ -43,6 +46,8 @@ class Sending(models.Model):
         Message, on_delete=models.CASCADE, verbose_name="Сообщение"
     )
     clients = models.ManyToManyField(Client, verbose_name="Клиенты")
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                                verbose_name='Владелец', **NULLABLE)
 
     def __str__(self):
         return f"{self.title}({self.message})"

@@ -9,6 +9,7 @@
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           {% for sending in object_list %}
+          {% if user.is_superuser or user == sending.creator or perms.mailing.view_sending %}
         <div class="col">
           <div class="card shadow-sm">
             <div class="card-body">
@@ -17,12 +18,15 @@
                 <div class="btn-group">
                   <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:sending_detail' sending.pk %}">View</a>
                   <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:sending_update' sending.pk %}">Edit</a>
+                    {% if user.is_superuser or user == sending.creator %}
                   <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:sending_delete' sending.pk %}">Delete</a>
+                    {% endif %}
                 </div>
               </div>
             </div>
           </div>
         </div>
+          {% endif %}
           {% endfor %}
       </div>
     </div>

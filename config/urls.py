@@ -23,3 +23,4 @@ urlpatterns = [
     path('client/', include('client.urls')),
     path('users/', include('users.urls')),
 ]
+

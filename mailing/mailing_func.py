@@ -29,18 +29,24 @@ def mailing_func():
                 recipient_list=[client.email for client in mailing.clients.all()],
                 fail_silently=False
             )
-            if service_response == 1:
-                Status.objects.create(status=LOGS_STATUS_CHOICES[0][1], service_response='Письмо отправлено успешно', sending=mailing)
+            # if service_response == 1:
+            #     Status.objects.create(status=LOGS_STATUS_CHOICES[0][1], service_response='Письмо отправлено успешно', sending=mailing)
 
             if mailing.periodicity == 'daily' and service_response == 1:
+                Status.objects.create(status=LOGS_STATUS_CHOICES[0][1], service_response='Письмо отправлено успешно',
+                                      sending=mailing)
                 mailing.time_first_mailing += timedelta(days=1)
                 mailing.sending_status = "created"
 
             elif mailing.periodicity == 'weekly' and service_response == 1:
+                Status.objects.create(status=LOGS_STATUS_CHOICES[0][1], service_response='Письмо отправлено успешно',
+                                      sending=mailing)
                 mailing.time_first_mailing += timedelta(days=7)
                 mailing.sending_status = "created"
 
             elif mailing.periodicity == 'monthly' and service_response == 1:
+                Status.objects.create(status=LOGS_STATUS_CHOICES[0][1], service_response='Письмо отправлено успешно',
+                                      sending=mailing)
                 mailing.time_first_mailing += timedelta(days=30)
                 mailing.sending_status = "created"
 

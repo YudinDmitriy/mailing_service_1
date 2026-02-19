@@ -47,11 +47,34 @@ class SendingCreateView(CreateView):
     form_class = SendingForm
     success_url = reverse_lazy("mailing:sending_list")
 
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.creator = self.request.user
+            self.object.save()
+            return super().form_valid(form)
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
 class MessageCreateView(CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy("mailing:message_list")
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.creator = self.request.user
+            self.object.save()
+            return super().form_valid(form)
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 # UpdateView
@@ -61,6 +84,11 @@ class SendingUpdateView(UpdateView):
     model = Sending
     form_class = SendingForm
     success_url = reverse_lazy("mailing:sending_list")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
 
 class MessageUpdateView(UpdateView):

@@ -10,11 +10,6 @@ from client.models import Client
 class ClientListView(ListView):
     model = Client
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        print(f'клиентлист :{context_data}')
-        return context_data
-
 
 class ClientDetailView(DetailView):
     model = Client
@@ -24,6 +19,15 @@ class ClientCreateView(CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("client:client_list")
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.creator = self.request.user
+            self.object.save()
+            return super().form_valid(form)
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class ClientUpdateView(UpdateView):
